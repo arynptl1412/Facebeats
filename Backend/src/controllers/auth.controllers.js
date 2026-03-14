@@ -57,7 +57,7 @@ export const loginController = async (req, res) => {
             { username },
             { email }
         ]
-    })
+    }).select("+password")
 
     if (!isUserExists) {
         return res.status(404).json({

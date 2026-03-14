@@ -1,4 +1,5 @@
 import jsonwebtoken from 'jsonwebtoken';
+import blacklistModel from '../models/blacklist.models.js';
 
 const jwt = jsonwebtoken;
 
@@ -6,8 +7,18 @@ async function identifyUser(req, res, next) {
     const token = req.cookies.jwtToken;
 
     if(!token){
-        req.status(401).json({
+        res.status(401).json({
             message: "Token Not Found"
+        })
+    }
+
+    const isTokenBlackListed = await blacklistModel.findOne({
+        token
+    })
+
+    if(isTokenBlackListed){
+        return res.status(401).json({
+            message: "The token is Blacklisted."
         })
     }
 

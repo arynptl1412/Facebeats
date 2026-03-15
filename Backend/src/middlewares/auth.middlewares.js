@@ -1,5 +1,5 @@
 import jsonwebtoken from 'jsonwebtoken';
-import blacklistModel from '../models/blacklist.models.js';
+import redis from '../config/cache.js';
 
 const jwt = jsonwebtoken;
 
@@ -7,14 +7,12 @@ async function identifyUser(req, res, next) {
     const token = req.cookies.jwtToken;
 
     if(!token){
-        res.status(401).json({
+        return res.status(401).json({
             message: "Token Not Found"
         })
     }
 
-    const isTokenBlackListed = await blacklistModel.findOne({
-        token
-    })
+    const isTokenBlackListed = await redis.get(token);
 
     if(isTokenBlackListed){
         return res.status(401).json({

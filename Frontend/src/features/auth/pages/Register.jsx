@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {useAuth} from '../hooks/useAuth.js'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
 
@@ -62,6 +62,7 @@ const Register = () => {
                     <button type='submit' className='primaryButton'>
                         Register
                     </button>
+                    <p>Already Registered? <Link to='/login' className='linkTag'>Login</Link></p>
                 </form>
             </div>
         </div>

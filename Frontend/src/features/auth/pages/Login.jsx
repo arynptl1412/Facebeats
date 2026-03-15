@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import {useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import '../style/form.scss'
-import {useAuth} from '../hooks/useAuth.js'
+import { useAuth } from '../hooks/useAuth.js'
 
 const Login = () => {
 
-    const {handleLogin, loading} = useAuth();
+    const { handleLogin, loading } = useAuth();
     const navigate = useNavigate();
 
     const [form, setForm] = useState({
@@ -13,21 +13,21 @@ const Login = () => {
         password: ""
     })
 
-    const handleChange = (e)=>{
+    const handleChange = (e) => {
         setForm({
             ...form,
             [e.target.name]: e.target.value
         })
     }
 
-    const handleSubmit = async (e)=>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const result = await handleLogin(form.email, form.password);
 
-        if(result.success){
+        if (result.success) {
             navigate("/")
-        }else{
+        } else {
             alert(result.message);
         }
     }
@@ -48,8 +48,9 @@ const Login = () => {
                         </div>
                     </div>
                     <button type='submit' className='primaryButton' disabled={loading}>
-                        {loading?"Logging In...":"Login"}
+                        {loading ? "Logging In..." : "Login"}
                     </button>
+                    <p>New User? <Link to='/register' className='linkTag'>Register</Link></p>
                 </form>
             </div>
         </div>
